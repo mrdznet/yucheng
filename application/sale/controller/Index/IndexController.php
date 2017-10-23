@@ -82,43 +82,9 @@ class IndexController extends ActionController
     */
     public function dologinAction() {
         $param['mobile'] = $this->params['mobile'];
-        $param['redirectUri'] = $this->params['redirectUri'];
-        $param['valicode'] = strtoupper(md5($this->params['valicode'].getConfigKey()));
-        $param['sendType'] = "login_register_";
-        $param['recommendMobile'] = $this->params['recommendMobile'];
-        $checkcode = $this->params['checkcode'];
-        $recommendid = $this->params['recommendid'];
-        
-//         $param['businessid'] = '';
-        $param['recommendid'] = '';
-        $param['recommendrole'] = '';
-        if(!empty($checkcode) || !empty($recommendid)) {
-            // 检验
-            if($checkcode != md5($recommendid.getConfigKey())) {
-                return $this->json("20015");
-            }
-            
-            // 查询引荐人角色
-            $recommendrole = Model::new("User.User")->getUserRoleID(["customerid"=>$recommendid]);
-            
-            $param['recommendid'] = $recommendid;
-
-            $param['recommendrole'] = $recommendrole;
-
-        // } else {
-        //     // 检测填写的推荐人手机号码
-        //     $CusCustomer = Model::ins("CusCustomer");
-        //     $customerRecord = $CusCustomer->getRow([
-        //         "mobile" => $param['recommendMobile'],
-        //     ],"id");
-
-        //     if(!empty($customerRecord['id'])) {
-        //         $param['recommendid'] = $customerRecord['id'];
-        //         $param['recommendrole'] = Model::new("User.User")->getUserRoleID(["customerid"=>$customerRecord['id']]);
-        //     }
-        }
-        
-        $param['openid'] = $this->openid;
+       
+        $param['valicode'] = $this->params['valicode'];
+     
         
         // 执行登录/注册
         $result = Model::new("User.User")->login($param);
